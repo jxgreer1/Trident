@@ -1,0 +1,1733 @@
+-------------------- Log Start | Sun Apr 28 05:48:08 2024 --------------------
+platform: Linux-6.1.21-v8+-aarch64-with-glibc2.31
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: True
+instance_uuid: 77a8fdfa437a42d28af3c3961e6d54c0
+unix_socket_path: /home/pi/printer_data/comms/moonraker.sock
+software_version: v0.8.0-328-g5a60d64
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker.git
+modified_files: []
+unofficial_components: []
+log_file: /home/pi/printer_data/logs/moonraker.log
+python_version: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+launch_args: /home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/__main__.py -d /home/pi/printer_data
+msgspec_enabled: False
+uvloop_enabled: False
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+max_upload_size = 1024
+klippy_uds_address = ~/printer_data/comms/klippy.sock
+
+[file_manager]
+enable_object_processing = True
+
+[authorization]
+cors_domains = 
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	http://*.local
+	http://*.lan
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[announcements]
+subscriptions = 
+	mainsail
+
+[update_manager]
+refresh_interval = 168
+enable_auto_refresh = True
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager beacon]
+type = git_repo
+channel = dev
+path = ~/beacon_klipper
+origin = https://github.com/beacon3d/beacon_klipper.git
+env = ~/klippy-env/bin/python
+requirements = requirements.txt
+install_script = install.sh
+is_system_service = False
+managed_services = klipper
+info_tags = 
+	desc=Beacon Surface Scanner
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+
+Database Versions: pylmdb = 1.4.1, lmdb = (0, 9, 29)
+Unsafe Shutdown Count: 195
+
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 10000000f285e6c2
+  hardware_desc: BCM2835
+  model: Raspberry Pi 4 Model B Rev 1.5
+  total_memory: 3705532
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 03
+  manufacturer: Sandisk
+  oem_id: 5344
+  product_name: SD64G
+  product_revision: 8.5
+  serial_number: 89585864
+  manufacturer_date: 11/2021
+  capacity: 59.5 GiB
+  total_bytes: 63864569856
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {'name': 'MainsailOS', 'version_id': '1.2.1', 'codename': 'bullseye', 'id': 'mainsailos'}
+  kernel_version: 6.1.21-v8+
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+Found libcamera Python module, version: v0.0.5+83-bde9b04f
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', 'sysinit.target', 'network-online.target']
+**After=['basic.target', 'klipper.service', 'systemd-journald.socket', 'system.slice', 'network-online.target', 'sysinit.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['-.mount', 'system.slice', 'sysinit.target']
+**After=['-.mount', 'network-online.target', 'sysinit.target', 'basic.target', 'systemd-journald.socket', 'klipper-mcu.service', 'system.slice']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+Git Repo moonraker: Warnings detected:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+Git Repo klipper: Warnings detected:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+Git Repo mainsail-config: No warnings detected
+Git Repo beacon: No warnings detected
+Klipper Version: v0.12.0-171-g2f6e94c9-dirty
+2024-04-28 06:48:08,576 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.70
+2024-04-28 06:48:08,580 [application.py:log_request()] - 101 GET /websocket (192.168.1.70) [_TRUSTED_USER_] 6.29ms
+2024-04-28 06:48:08,581 [websockets.py:open()] - Websocket Opened: ID: 547631625696, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0, Host Name: trident.local
+2024-04-28 06:48:08,592 [websockets.py:_handle_identify()] - Websocket 547631625696 Client Identified - Name: mainsail, Version: 2.10.0, Type: web
+2024-04-28 06:49:07,599 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary5idGG0tCncTKmtnH
+2024-04-28 06:49:07,621 [application.py:post()] - Processing Uploaded File: moonraker.conf
+2024-04-28 06:49:07,632 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 35.66ms
+2024-04-28 06:49:07,752 [websockets.py:on_close()] - Websocket Closed: ID: 547633293776 Close Code: 1000, Close Reason: None, Pong Time Elapsed: 8.34
+2024-04-28 06:49:07,755 [websockets.py:on_close()] - Websocket Closed: ID: 547631625696 Close Code: 1001, Close Reason: Server Shutdown, Pong Time Elapsed: 9.17
+2024-04-28 06:49:07,760 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 06:49:07,772 [database.py:close()] - Database statistics:
+
+announcements:
+psize: 4096
+depth: 0
+branch_pages: 0
+leaf_pages: 0
+overflow_pages: 0
+entries: 0
+authorized_users:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+fluidd:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 1
+entries: 6
+gcode_metadata:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 32
+overflow_pages: 0
+entries: 88
+history:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 127
+overflow_pages: 0
+entries: 261
+mainsail:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 1
+entries: 11
+mobileraker:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 3
+entries: 2
+moonraker:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 8
+update_manager:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 3
+overflow_pages: 0
+entries: 6
+webcams:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+2024-04-28 06:49:08,283 [server.py:main()] - Attempting Server Restart...
+2024-04-28 06:49:08,288 [confighelper.py:read_file()] - Configuration File '/home/pi/printer_data/config/moonraker.conf' parsed, total size: 2376 B
+2024-04-28 06:49:08,289 [server.py:add_log_rollover_item()] - 
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+max_upload_size = 1024
+klippy_uds_address = ~/printer_data/comms/klippy.sock
+
+[file_manager]
+enable_object_processing = True
+
+[authorization]
+cors_domains = 
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	http://*.local
+	http://*.lan
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[announcements]
+subscriptions = 
+	mainsail
+
+[update_manager]
+refresh_interval = 168
+enable_auto_refresh = True
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager timelapse]
+type = git_repo
+primary_branch = main
+path = ~/moonraker-timelapse
+origin = https://github.com/mainsail-crew/moonraker-timelapse.git
+managed_services = klipper moonraker
+
+[timelapse]
+output_path = ~/timelapse/
+ffmpeg_binary_path = /usr/bin/ffmpeg
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
+
+[update_manager beacon]
+type = git_repo
+channel = dev
+path = ~/beacon_klipper
+origin = https://github.com/beacon3d/beacon_testers.git
+env = ~/klippy-env/bin/python
+requirements = requirements.txt
+install_script = install.sh
+is_system_service = False
+managed_services = klipper
+info_tags = 
+	desc=Beacon Surface Scanner
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+2024-04-28 06:49:08,290 [server.py:load_component()] - Component (secrets) loaded
+2024-04-28 06:49:08,291 [server.py:load_component()] - Component (template) loaded
+2024-04-28 06:49:08,294 [server.py:load_component()] - Component (klippy_connection) loaded
+2024-04-28 06:49:08,296 [server.py:load_component()] - Component (application) loaded
+2024-04-28 06:49:08,297 [server.py:load_component()] - Component (websockets) loaded
+2024-04-28 06:49:08,299 [server.py:load_component()] - Component (dbus_manager) loaded
+2024-04-28 06:49:08,302 [server.py:add_log_rollover_item()] - 
+Database Versions: pylmdb = 1.4.1, lmdb = (0, 9, 29)
+Unsafe Shutdown Count: 195
+2024-04-28 06:49:08,307 [server.py:load_component()] - Component (database) loaded
+2024-04-28 06:49:08,314 [file_manager.py:__init__()] - Using File System Observer: inotify
+2024-04-28 06:49:08,335 [server.py:load_component()] - Component (file_manager) loaded
+2024-04-28 06:49:08,338 [authorization.py:__init__()] - Authorization Configuration Loaded
+Trusted Clients:
+10.0.0.0/8
+127.0.0.0/8
+169.254.0.0/16
+172.16.0.0/12
+192.168.0.0/16
+fe80::/10
+::1/128
+CORS Domains:
+https://my\.mainsail\.xyz
+http://my\.mainsail\.xyz
+http://.*\.local
+http://.*\.lan
+2024-04-28 06:49:08,339 [server.py:load_component()] - Component (authorization) loaded
+2024-04-28 06:49:08,340 [server.py:load_component()] - Component (klippy_apis) loaded
+2024-04-28 06:49:08,364 [server.py:add_log_rollover_item()] - 
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 10000000f285e6c2
+  hardware_desc: BCM2835
+  model: Raspberry Pi 4 Model B Rev 1.5
+  total_memory: 3705532
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 03
+  manufacturer: Sandisk
+  oem_id: 5344
+  product_name: SD64G
+  product_revision: 8.5
+  serial_number: 89585864
+  manufacturer_date: 11/2021
+  capacity: 59.5 GiB
+  total_bytes: 63864569856
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {'name': 'MainsailOS', 'version_id': '1.2.1', 'codename': 'bullseye', 'id': 'mainsailos'}
+  kernel_version: 6.1.21-v8+
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+2024-04-28 06:49:08,365 [server.py:load_component()] - Component (shell_command) loaded
+2024-04-28 06:49:08,365 [machine.py:__init__()] - Using System Provider: systemd_dbus
+2024-04-28 06:49:08,392 [server.py:add_log_rollover_item()] - Found libcamera Python module, version: v0.0.5+83-bde9b04f
+2024-04-28 06:49:08,392 [server.py:load_component()] - Component (machine) loaded
+2024-04-28 06:49:08,393 [server.py:load_component()] - Component (data_store) loaded
+2024-04-28 06:49:08,394 [proc_stats.py:__init__()] - Detected 'vcgencmd', throttle checking enabled
+2024-04-28 06:49:08,395 [server.py:load_component()] - Component (proc_stats) loaded
+2024-04-28 06:49:08,395 [server.py:load_component()] - Component (job_state) loaded
+2024-04-28 06:49:08,396 [server.py:load_component()] - Component (job_queue) loaded
+2024-04-28 06:49:08,397 [server.py:load_component()] - Component (http_client) loaded
+2024-04-28 06:49:08,398 [server.py:load_component()] - Component (announcements) loaded
+2024-04-28 06:49:08,399 [server.py:load_component()] - Component (webcam) loaded
+2024-04-28 06:49:08,401 [server.py:load_component()] - Component (extensions) loaded
+2024-04-28 06:49:08,406 [base_deploy.py:log_info()] - Git Repo moonraker: Detected virtualenv: /home/pi/moonraker-env
+2024-04-28 06:49:08,409 [base_deploy.py:log_info()] - Git Repo klipper: Detected virtualenv: /home/pi/klippy-env
+2024-04-28 06:49:08,419 [base_deploy.py:log_info()] - Git Repo beacon: Option 'env' is deprecated, use 'virtualenv' instead.
+2024-04-28 06:49:08,420 [base_deploy.py:log_info()] - Git Repo beacon: Detected virtualenv: /home/pi/klippy-env
+2024-04-28 06:49:08,423 [server.py:load_component()] - Component (update_manager) loaded
+2024-04-28 06:49:08,424 [server.py:load_component()] - Component (octoprint_compat) loaded
+2024-04-28 06:49:08,447 [server.py:load_component()] - Component (timelapse) loaded
+2024-04-28 06:49:08,449 [server.py:load_component()] - Component (history) loaded
+2024-04-28 06:49:08,451 [server.py:_initialize_component()] - Performing Component Post Init: [dbus_manager]
+2024-04-28 06:49:08,462 [server.py:_initialize_component()] - Performing Component Post Init: [file_manager]
+2024-04-28 06:49:08,742 [server.py:_initialize_component()] - Performing Component Post Init: [authorization]
+2024-04-28 06:49:08,742 [server.py:_initialize_component()] - Performing Component Post Init: [machine]
+2024-04-28 06:49:08,742 [machine.py:validation_init()] - Installation version in database up to date
+2024-04-28 06:49:08,943 [machine.py:check_virt_status()] - No Virtualization Detected
+2024-04-28 06:49:08,960 [machine.py:_find_public_ip()] - Detected Local IP: 192.168.1.208
+2024-04-28 06:49:08,963 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.208
+2024-04-28 06:49:09,073 [server.py:add_log_rollover_item()] - 
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', 'sysinit.target', 'network-online.target']
+**After=['basic.target', 'klipper.service', 'systemd-journald.socket', 'system.slice', 'network-online.target', 'sysinit.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+2024-04-28 06:49:09,074 [server.py:_initialize_component()] - Performing Component Post Init: [proc_stats]
+2024-04-28 06:49:09,074 [server.py:_initialize_component()] - Performing Component Post Init: [announcements]
+2024-04-28 06:49:09,075 [server.py:_initialize_component()] - Performing Component Post Init: [webcam]
+2024-04-28 06:49:09,076 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.208
+2024-04-28 06:49:09,076 [server.py:_initialize_component()] - Performing Component Post Init: [klippy_connection]
+2024-04-28 06:49:09,077 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['-.mount', 'system.slice', 'sysinit.target']
+**After=['-.mount', 'network-online.target', 'sysinit.target', 'basic.target', 'systemd-journald.socket', 'klipper-mcu.service', 'system.slice']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2024-04-28 06:49:09,077 [server.py:_initialize_component()] - Performing Component Post Init: [update_manager]
+2024-04-28 06:49:09,079 [server.py:_initialize_component()] - Performing Component Post Init: [history]
+2024-04-28 06:49:09,127 [base_deploy.py:log_info()] - PackageDeploy: PackageKit Provider Configured
+2024-04-28 06:49:09,128 [base_deploy.py:log_info()] - Git Repo moonraker: Stored pip version: 23.0
+2024-04-28 06:49:09,129 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Recovery URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: 5a60d64f040205670ffe27f427960d1e672a664d
+Upstream Commit SHA: 5a60d64f040205670ffe27f427960d1e672a664d
+Current Version: v0.8.0-328-g5a60d64f
+Upstream Version: v0.8.0-328-g5a60d64f
+Rollback Commit: e87ab4a8955ca434b7f7c09d3eba443200cb523d
+Rollback Branch: master
+Rollback Version: v0.8.0-313-ge87ab4a8
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+2024-04-28 06:49:09,130 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Recovery URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 2f6e94c94cae036b70b02df996dc12e2e61e5dcb
+Upstream Commit SHA: 2f6e94c94cae036b70b02df996dc12e2e61e5dcb
+Current Version: v0.12.0-171-g2f6e94c9
+Upstream Version: v0.12.0-171-g2f6e94c9
+Rollback Commit: 28f06a104bc0cfe3a7d36db343ade5a805b3e132
+Rollback Branch: master
+Rollback Version: v0.12.0-113-g28f06a10
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+2024-04-28 06:49:09,138 [base_deploy.py:log_info()] - Web Client mainsail: Detected
+Repo: mainsail-crew/mainsail
+Channel: stable
+Path: /home/pi/mainsail
+Local Version: v2.10.0
+Remote Version: v2.10.0
+Valid: True
+Fallback Detected: False
+Pre-release: False
+Download Url: https://github.com/mainsail-crew/mainsail/releases/download/v2.10.0/mainsail.zip
+Download Size: 2081565
+Content Type: application/zip
+Rollback Version: v2.9.1
+Rollback Repo: mainsail-crew/mainsail
+2024-04-28 06:49:09,139 [git_deploy.py:log_repo_info()] - Git Repo mainsail-config Detected:
+Owner: mainsail-crew
+Repository Name: mainsail-config
+Path: /home/pi/mainsail-config
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/mainsail-config.git
+Recovery URL: https://github.com/mainsail-crew/mainsail-config.git
+Current Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Upstream Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Current Version: v1.2.1-0-ge57810d5
+Upstream Version: v1.2.1-0-ge57810d5
+Rollback Commit: 76a9999986b03abb3aed272dc0a818f13a18ea7e
+Rollback Branch: master
+Rollback Version: v1.1.0-1-g76a99999
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 06:49:09,143 [base_deploy.py:log_info()] - Git Repo beacon: Stored pip version: 23.3.2
+2024-04-28 06:49:09,146 [base_deploy.py:log_info()] - PackageKit: Next refresh in: 3 Days, 2 Hours, 37 Minutes, 54 Seconds
+2024-04-28 06:49:09,147 [base_deploy.py:log_info()] - Git Repo moonraker: Next refresh in: 3 Days, 2 Hours, 38 Minutes, 49 Seconds
+2024-04-28 06:49:09,147 [base_deploy.py:log_info()] - Git Repo klipper: Next refresh in: 3 Days, 2 Hours, 38 Minutes, 35 Seconds
+2024-04-28 06:49:09,147 [base_deploy.py:log_info()] - Web Client mainsail: Next refresh in: 2 Days, 18 Hours, 52 Minutes, 13 Seconds
+2024-04-28 06:49:09,147 [base_deploy.py:log_info()] - Git Repo mainsail-config: Next refresh in: 2 Days, 18 Hours, 52 Minutes, 14 Seconds
+2024-04-28 06:49:09,148 [confighelper.py:create_backup()] - Backing up last working configuration to '/home/pi/printer_data/config/.moonraker.conf.bkp'
+2024-04-28 06:49:09,168 [extensions.py:start_unix_server()] - Creating Unix Domain Socket at '/home/pi/printer_data/comms/moonraker.sock'
+2024-04-28 06:49:09,170 [server.py:start_server()] - Starting Moonraker on (0.0.0.0, 7125), Hostname: trident
+2024-04-28 06:49:09,171 [application.py:listen()] - SSL Certificate/Key not configured, aborting HTTPS Server startup
+2024-04-28 06:49:09,201 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse status --porcelain -b) successfully finished
+2024-04-28 06:49:09,220 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse branch --list --no-color) successfully finished
+2024-04-28 06:49:09,256 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse remote get-url origin) successfully finished
+2024-04-28 06:49:09,425 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 06:49:09,737 [server.py:add_log_rollover_item()] - Klipper Version: v0.12.0-171-g2f6e94c9-dirty
+2024-04-28 06:49:09,746 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 06:49:09,748 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 06:49:09,981 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse fetch origin --prune --progress) successfully finished
+2024-04-28 06:49:09,999 [job_state.py:_handle_started()] - Job state initialized: complete
+2024-04-28 06:49:10,000 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse merge-base --is-ancestor HEAD origin/main) successfully finished
+2024-04-28 06:49:10,019 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse HEAD) successfully finished
+2024-04-28 06:49:10,039 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:49:10,056 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse origin/main) successfully finished
+2024-04-28 06:49:10,076 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe origin/main --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:49:10,095 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-list HEAD..c7fff11e542b95e0e15b8bb1443cea8159ac0274 --count) successfully finished
+2024-04-28 06:49:10,115 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse log f9198e00c859ecb72e4dcc11451fd33cc98b7297..origin/main --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2024-04-28 06:49:10,136 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse for-each-ref --count=100 --sort='-creatordate' --contains=HEAD --merged=origin/main --format='%(if)%(*objecttype)%(then)%(*objecttype) %(*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2024-04-28 06:49:10,136 [git_deploy.py:log_repo_info()] - Git Repo timelapse Detected:
+Owner: mainsail-crew
+Repository Name: moonraker-timelapse
+Path: /home/pi/moonraker-timelapse
+Remote: origin
+Branch: main
+Remote URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Recovery URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Current Commit SHA: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Upstream Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Current Version: v0.0.1-132-gf9198e00
+Upstream Version: v0.0.1-143-gc7fff11e
+Rollback Commit: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Rollback Branch: main
+Rollback Version: v0.0.1-132-gf9198e00
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 11
+Diverged: False
+2024-04-28 06:49:10,137 [base_deploy.py:log_info()] - Git Repo timelapse: Channel: dev
+2024-04-28 06:49:10,137 [base_deploy.py:log_info()] - Git Repo timelapse: Validity check for git repo passed
+2024-04-28 06:49:10,192 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest status --porcelain -b) successfully finished
+2024-04-28 06:49:10,208 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest branch --list --no-color) successfully finished
+2024-04-28 06:49:10,239 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest remote get-url origin) successfully finished
+2024-04-28 06:49:10,274 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-04-28 06:49:10,750 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor Spider', 'temperature_sensor raspberry_pi', 'temperature_sensor sht36', 'temperature_sensor chamber', 'heater_bed', 'temperature_sensor beacon_coil', 'extruder']
+2024-04-28 06:49:11,086 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest fetch origin --prune --progress) successfully finished
+2024-04-28 06:49:11,106 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:49:11,123 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse HEAD) successfully finished
+2024-04-28 06:49:11,145 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:49:11,161 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse origin/master) successfully finished
+2024-04-28 06:49:11,183 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:49:11,202 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-list HEAD..d75a3aeb018384e59d03518754f6148c98894ed9 --count) successfully finished
+2024-04-28 06:49:11,223 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest log e209d19d3c26b614799f194c53380aa2b5dff641..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2024-04-28 06:49:11,254 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest for-each-ref --count=100 --sort='-creatordate' --contains=HEAD --merged=origin/master --format='%(if)%(*objecttype)%(then)%(*objecttype) %(*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2024-04-28 06:49:11,255 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Recovery URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: e209d19d3c26b614799f194c53380aa2b5dff641
+Upstream Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Current Version: v4.1.2-1-ge209d19d
+Upstream Version: v4.1.9-1-gd75a3aeb
+Rollback Commit: e209d19d3c26b614799f194c53380aa2b5dff641
+Rollback Branch: master
+Rollback Version: v4.1.2-1-ge209d19d
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 35
+Diverged: False
+2024-04-28 06:49:11,256 [base_deploy.py:log_info()] - Git Repo crowsnest: Channel: dev
+2024-04-28 06:49:11,256 [base_deploy.py:log_info()] - Git Repo crowsnest: Validity check for git repo passed
+2024-04-28 06:49:11,276 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper status --porcelain -b) successfully finished
+2024-04-28 06:49:11,293 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper branch --list --no-color) successfully finished
+2024-04-28 06:49:11,324 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper remote get-url origin) successfully finished
+2024-04-28 06:49:11,325 [git_deploy.py:_check_moved_origin()] - Git repo beacon: Performing moved origin check - https://github.com/beacon3d/beacon_klipper
+2024-04-28 06:49:14,507 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper fetch origin --prune --progress) successfully finished
+2024-04-28 06:49:14,524 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:49:14,540 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-parse HEAD) successfully finished
+2024-04-28 06:49:14,560 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:49:14,577 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-parse origin/master) successfully finished
+2024-04-28 06:49:14,596 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:49:14,613 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-list HEAD..b89bbbec0d94c92ba709a1da283afd0a5eb2c19e --count) successfully finished
+2024-04-28 06:49:14,614 [git_deploy.py:log_repo_info()] - Git Repo beacon Detected:
+Owner: beacon3d
+Repository Name: beacon_klipper
+Path: /home/pi/beacon_klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/beacon3d/beacon_klipper.git
+Recovery URL: https://github.com/beacon3d/beacon_klipper.git
+Current Commit SHA: b89bbbec0d94c92ba709a1da283afd0a5eb2c19e
+Upstream Commit SHA: b89bbbec0d94c92ba709a1da283afd0a5eb2c19e
+Current Version: v1.0.0-35-gb89bbbec
+Upstream Version: v1.0.0-35-gb89bbbec
+Rollback Commit: 1e7511cad7f289dff193f077b490e668791877ac
+Rollback Branch: master
+Rollback Version: v1.0.0-27-g1e7511ca
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Unofficial remote url: https://github.com/beacon3d/beacon_klipper.git
+2024-04-28 06:49:14,614 [base_deploy.py:log_info()] - Git Repo beacon: Channel: dev
+2024-04-28 06:49:14,615 [base_deploy.py:log_info()] - Git Repo beacon: Validity check for git repo passed
+2024-04-28 06:49:18,368 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2024-04-28 06:49:18,401 [application.py:log_request()] - 101 GET /websocket?token=WOPJTSKJ75PCVRZ57P2454QJERW2NMV3 (127.0.0.1) [_TRUSTED_USER_] 3.97ms
+2024-04-28 06:49:18,402 [websockets.py:open()] - Websocket Opened: ID: 547612217056, Proxied: False, User Agent: , Host Name: 127.0.0.1
+2024-04-28 06:49:18,894 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 06:49:35,429 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.70
+2024-04-28 06:49:35,432 [application.py:log_request()] - 101 GET /websocket (192.168.1.70) [_TRUSTED_USER_] 5.91ms
+2024-04-28 06:49:35,433 [websockets.py:open()] - Websocket Opened: ID: 547611656352, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0, Host Name: trident.local
+2024-04-28 06:49:35,439 [websockets.py:_handle_identify()] - Websocket 547611656352 Client Identified - Name: mainsail, Version: 2.10.0, Type: web
+2024-04-28 06:49:54,987 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest fetch origin --prune --progress) successfully finished
+2024-04-28 06:49:55,007 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:49:55,565 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest pull --progress) successfully finished
+2024-04-28 06:49:55,594 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest status --porcelain -b) successfully finished
+2024-04-28 06:49:55,612 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest branch --list --no-color) successfully finished
+2024-04-28 06:49:55,648 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest remote get-url origin) successfully finished
+2024-04-28 06:49:55,666 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:49:55,683 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse HEAD) successfully finished
+2024-04-28 06:49:55,709 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:49:55,728 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse origin/master) successfully finished
+2024-04-28 06:49:55,752 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:49:55,770 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-list HEAD..d75a3aeb018384e59d03518754f6148c98894ed9 --count) successfully finished
+2024-04-28 06:49:55,771 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Recovery URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Upstream Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Current Version: v4.1.9-1-gd75a3aeb
+Upstream Version: v4.1.9-1-gd75a3aeb
+Rollback Commit: e209d19d3c26b614799f194c53380aa2b5dff641
+Rollback Branch: master
+Rollback Version: v4.1.2-1-ge209d19d
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 06:49:55,771 [base_deploy.py:log_info()] - Git Repo crowsnest: Channel: dev
+2024-04-28 06:49:55,771 [base_deploy.py:log_info()] - Git Repo crowsnest: Validity check for git repo passed
+2024-04-28 06:58:06,477 [base_deploy.py:log_info()] - PackageKit: Detected 0 package updates:
+
+2024-04-28 06:58:06,499 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker status --porcelain -b) successfully finished
+2024-04-28 06:58:06,517 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker branch --list --no-color) successfully finished
+2024-04-28 06:58:06,549 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker remote get-url origin) successfully finished
+2024-04-28 06:58:07,690 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:07,710 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:58:07,727 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse HEAD) successfully finished
+2024-04-28 06:58:07,760 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:07,777 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse origin/master) successfully finished
+2024-04-28 06:58:07,808 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:07,827 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-list HEAD..546a17f5d3e90dacb5018dee51dafbdb47858f02 --count) successfully finished
+2024-04-28 06:58:07,847 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker log 5a60d64f040205670ffe27f427960d1e672a664d..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2024-04-28 06:58:07,913 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker for-each-ref --count=100 --sort='-creatordate' --contains=HEAD --merged=origin/master --format='%(if)%(*objecttype)%(then)%(*objecttype) %(*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2024-04-28 06:58:07,914 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Recovery URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: 5a60d64f040205670ffe27f427960d1e672a664d
+Upstream Commit SHA: 546a17f5d3e90dacb5018dee51dafbdb47858f02
+Current Version: v0.8.0-328-g5a60d64f
+Upstream Version: v0.8.0-337-g546a17f5
+Rollback Commit: e87ab4a8955ca434b7f7c09d3eba443200cb523d
+Rollback Branch: master
+Rollback Version: v0.8.0-313-ge87ab4a8
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 9
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+2024-04-28 06:58:07,914 [base_deploy.py:log_info()] - Git Repo moonraker: Channel: dev
+2024-04-28 06:58:07,914 [base_deploy.py:log_info()] - Git Repo moonraker: Validity check for git repo passed
+2024-04-28 06:58:07,953 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper status --porcelain -b) successfully finished
+2024-04-28 06:58:07,969 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper branch --list --no-color) successfully finished
+2024-04-28 06:58:08,001 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper remote get-url origin) successfully finished
+2024-04-28 06:58:09,782 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:09,801 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:58:09,818 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse HEAD) successfully finished
+2024-04-28 06:58:09,925 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:09,941 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse origin/master) successfully finished
+2024-04-28 06:58:10,039 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:10,058 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-list HEAD..7b490f3ec1d3f0477b90c74d96f51ba1fb457a46 --count) successfully finished
+2024-04-28 06:58:10,077 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper log 2f6e94c94cae036b70b02df996dc12e2e61e5dcb..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2024-04-28 06:58:10,200 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper for-each-ref --count=100 --sort='-creatordate' --contains=HEAD --merged=origin/master --format='%(if)%(*objecttype)%(then)%(*objecttype) %(*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2024-04-28 06:58:10,201 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Recovery URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 2f6e94c94cae036b70b02df996dc12e2e61e5dcb
+Upstream Commit SHA: 7b490f3ec1d3f0477b90c74d96f51ba1fb457a46
+Current Version: v0.12.0-171-g2f6e94c9
+Upstream Version: v0.12.0-175-g7b490f3e
+Rollback Commit: 28f06a104bc0cfe3a7d36db343ade5a805b3e132
+Rollback Branch: master
+Rollback Version: v0.12.0-113-g28f06a10
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 4
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+2024-04-28 06:58:10,201 [base_deploy.py:log_info()] - Git Repo klipper: Channel: dev
+2024-04-28 06:58:10,201 [base_deploy.py:log_info()] - Git Repo klipper: Validity check for git repo passed
+2024-04-28 06:58:10,343 [base_deploy.py:log_info()] - Web Client mainsail: Detected
+Repo: mainsail-crew/mainsail
+Channel: stable
+Path: /home/pi/mainsail
+Local Version: v2.10.0
+Remote Version: v2.10.0
+Valid: True
+Fallback Detected: False
+Pre-release: False
+Download Url: https://github.com/mainsail-crew/mainsail/releases/download/v2.10.0/mainsail.zip
+Download Size: 2081565
+Content Type: application/zip
+Rollback Version: v2.9.1
+Rollback Repo: mainsail-crew/mainsail
+2024-04-28 06:58:10,364 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config status --porcelain -b) successfully finished
+2024-04-28 06:58:10,380 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config branch --list --no-color) successfully finished
+2024-04-28 06:58:10,416 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config remote get-url origin) successfully finished
+2024-04-28 06:58:10,939 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:10,956 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:58:10,973 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config rev-parse HEAD) successfully finished
+2024-04-28 06:58:10,991 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:11,008 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config rev-parse origin/master) successfully finished
+2024-04-28 06:58:11,026 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:11,045 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/mainsail-config rev-list HEAD..e57810d51b5c634aadaca4db923bfcba269ae4b3 --count) successfully finished
+2024-04-28 06:58:11,046 [git_deploy.py:log_repo_info()] - Git Repo mainsail-config Detected:
+Owner: mainsail-crew
+Repository Name: mainsail-config
+Path: /home/pi/mainsail-config
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/mainsail-config.git
+Recovery URL: https://github.com/mainsail-crew/mainsail-config.git
+Current Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Upstream Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Current Version: v1.2.1-0-ge57810d5
+Upstream Version: v1.2.1-0-ge57810d5
+Rollback Commit: 76a9999986b03abb3aed272dc0a818f13a18ea7e
+Rollback Branch: master
+Rollback Version: v1.1.0-1-g76a99999
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 06:58:11,047 [base_deploy.py:log_info()] - Git Repo mainsail-config: Channel: dev
+2024-04-28 06:58:11,047 [base_deploy.py:log_info()] - Git Repo mainsail-config: Validity check for git repo passed
+2024-04-28 06:58:11,068 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse status --porcelain -b) successfully finished
+2024-04-28 06:58:11,086 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse branch --list --no-color) successfully finished
+2024-04-28 06:58:11,119 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse remote get-url origin) successfully finished
+2024-04-28 06:58:11,597 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:11,615 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse merge-base --is-ancestor HEAD origin/main) successfully finished
+2024-04-28 06:58:11,632 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse HEAD) successfully finished
+2024-04-28 06:58:11,652 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:11,673 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse origin/main) successfully finished
+2024-04-28 06:58:11,697 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe origin/main --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:11,715 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-list HEAD..c7fff11e542b95e0e15b8bb1443cea8159ac0274 --count) successfully finished
+2024-04-28 06:58:11,735 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse log f9198e00c859ecb72e4dcc11451fd33cc98b7297..origin/main --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2024-04-28 06:58:11,756 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse for-each-ref --count=100 --sort='-creatordate' --contains=HEAD --merged=origin/main --format='%(if)%(*objecttype)%(then)%(*objecttype) %(*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2024-04-28 06:58:11,757 [git_deploy.py:log_repo_info()] - Git Repo timelapse Detected:
+Owner: mainsail-crew
+Repository Name: moonraker-timelapse
+Path: /home/pi/moonraker-timelapse
+Remote: origin
+Branch: main
+Remote URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Recovery URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Current Commit SHA: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Upstream Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Current Version: v0.0.1-132-gf9198e00
+Upstream Version: v0.0.1-143-gc7fff11e
+Rollback Commit: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Rollback Branch: main
+Rollback Version: v0.0.1-132-gf9198e00
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 11
+Diverged: False
+2024-04-28 06:58:11,757 [base_deploy.py:log_info()] - Git Repo timelapse: Channel: dev
+2024-04-28 06:58:11,757 [base_deploy.py:log_info()] - Git Repo timelapse: Validity check for git repo passed
+2024-04-28 06:58:11,782 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest status --porcelain -b) successfully finished
+2024-04-28 06:58:11,799 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest branch --list --no-color) successfully finished
+2024-04-28 06:58:11,831 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest remote get-url origin) successfully finished
+2024-04-28 06:58:12,363 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:12,381 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:58:12,398 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse HEAD) successfully finished
+2024-04-28 06:58:12,422 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:12,439 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse origin/master) successfully finished
+2024-04-28 06:58:12,462 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:12,479 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-list HEAD..d75a3aeb018384e59d03518754f6148c98894ed9 --count) successfully finished
+2024-04-28 06:58:12,481 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Recovery URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Upstream Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Current Version: v4.1.9-1-gd75a3aeb
+Upstream Version: v4.1.9-1-gd75a3aeb
+Rollback Commit: e209d19d3c26b614799f194c53380aa2b5dff641
+Rollback Branch: master
+Rollback Version: v4.1.2-1-ge209d19d
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 06:58:12,481 [base_deploy.py:log_info()] - Git Repo crowsnest: Channel: dev
+2024-04-28 06:58:12,481 [base_deploy.py:log_info()] - Git Repo crowsnest: Validity check for git repo passed
+2024-04-28 06:58:12,505 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper status --porcelain -b) successfully finished
+2024-04-28 06:58:12,521 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper branch --list --no-color) successfully finished
+2024-04-28 06:58:12,554 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper remote get-url origin) successfully finished
+2024-04-28 06:58:13,854 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper fetch origin --prune --progress) successfully finished
+2024-04-28 06:58:13,872 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 06:58:13,889 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-parse HEAD) successfully finished
+2024-04-28 06:58:13,907 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 06:58:13,929 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-parse origin/master) successfully finished
+2024-04-28 06:58:13,947 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 06:58:13,965 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-list HEAD..14c12b6689884680995ad889c1d6feb9bb6ee9be --count) successfully finished
+2024-04-28 06:58:13,983 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-list HEAD --count) successfully finished
+2024-04-28 06:58:13,985 [git_deploy.py:_set_versions()] - Git repo beacon: Failed to detect current version, got '14c12b66'. Falling back to inferred version: v0.0.0-54-g14c12b66-inferred
+2024-04-28 06:58:14,003 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/beacon_klipper rev-list 14c12b6689884680995ad889c1d6feb9bb6ee9be --count) successfully finished
+2024-04-28 06:58:14,004 [git_deploy.py:_set_versions()] - Git repo beacon: Failed to detect upstream version, got '14c12b66'. Falling back to inferred version: v0.0.0-54-inferred
+2024-04-28 06:58:14,004 [git_deploy.py:log_repo_info()] - Git Repo beacon Detected:
+Owner: ?
+Repository Name: beacon_testers
+Path: /home/pi/beacon_klipper
+Remote: origin
+Branch: master
+Remote URL: git@github.com:beacon3d/beacon_testers.git
+Recovery URL: git@github.com:beacon3d/beacon_testers.git
+Current Commit SHA: 14c12b6689884680995ad889c1d6feb9bb6ee9be
+Upstream Commit SHA: 14c12b6689884680995ad889c1d6feb9bb6ee9be
+Current Version: v0.0.0-54-g14c12b66-inferred
+Upstream Version: v0.0.0-54-inferred
+Rollback Commit: 1e7511cad7f289dff193f077b490e668791877ac
+Rollback Branch: master
+Rollback Version: v1.0.0-27-g1e7511ca
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Unofficial remote url: git@github.com:beacon3d/beacon_testers.git
+2024-04-28 06:58:14,005 [base_deploy.py:log_info()] - Git Repo beacon: Channel: dev
+2024-04-28 06:58:14,005 [base_deploy.py:log_info()] - Git Repo beacon: Validity check for git repo passed
+2024-04-28 06:58:25,963 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryfmPdaA5FvB9y7INR
+2024-04-28 06:58:25,988 [application.py:post()] - Processing Uploaded File: Z_Steppers.cfg
+2024-04-28 06:58:26,004 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 44.48ms
+2024-04-28 06:59:36,183 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJDAdd2u9QwXttofU
+2024-04-28 06:59:36,201 [application.py:post()] - Processing Uploaded File: sensorless_homing.cfg
+2024-04-28 06:59:36,212 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 31.40ms
+2024-04-28 06:59:47,600 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryCAC94VdXUwEIIvGd
+2024-04-28 06:59:47,609 [application.py:post()] - Processing Uploaded File: beacon.cfg
+2024-04-28 06:59:47,615 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 15.49ms
+2024-04-28 06:59:48,745 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 06:59:50,004 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 06:59:51,428 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 06:59:51,429 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 06:59:51,431 [klippy_connection.py:_check_ready()] - 
+Option 'home_xy_position' is not valid in section 'beacon'
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 06:59:52,691 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:00:51,069 [klippy_connection.py:close()] - Error closing Klippy Unix Socket
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/components/klippy_connection.py", line 769, in close
+    await self.writer.wait_closed()
+  File "/usr/lib/python3.9/asyncio/streams.py", line 359, in wait_closed
+    await self._protocol._get_close_waiter(self)
+  File "/home/pi/moonraker/moonraker/components/klippy_connection.py", line 172, in _read_stream
+    data = await reader.readuntil(b'\x03')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 632, in readuntil
+    await self._wait_for_data('readuntil')
+  File "/usr/lib/python3.9/asyncio/streams.py", line 517, in _wait_for_data
+    await self._waiter
+  File "/usr/lib/python3.9/asyncio/selector_events.py", line 856, in _read_ready__data_received
+    data = self._sock.recv(self.max_size)
+ConnectionResetError: [Errno 104] Connection reset by peer
+2024-04-28 07:00:51,070 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:00:51,076 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Disconnected
+2024-04-28 07:00:52,335 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:00:53,793 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:00:53,795 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:00:53,797 [klippy_connection.py:_check_ready()] - 
+Option 'home_xy_position' is not valid in section 'beacon'
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 07:00:54,806 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:01:54,040 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse fetch origin --prune --progress) successfully finished
+2024-04-28 07:01:54,058 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse merge-base --is-ancestor HEAD origin/main) successfully finished
+2024-04-28 07:01:54,589 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse pull --progress) successfully finished
+2024-04-28 07:01:54,611 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse status --porcelain -b) successfully finished
+2024-04-28 07:01:54,629 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse branch --list --no-color) successfully finished
+2024-04-28 07:01:54,662 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse remote get-url origin) successfully finished
+2024-04-28 07:01:54,679 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse merge-base --is-ancestor HEAD origin/main) successfully finished
+2024-04-28 07:01:54,696 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse HEAD) successfully finished
+2024-04-28 07:01:54,719 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 07:01:54,736 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-parse origin/main) successfully finished
+2024-04-28 07:01:54,758 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse describe origin/main --always --tags --long --abbrev=8) successfully finished
+2024-04-28 07:01:54,776 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker-timelapse rev-list HEAD..c7fff11e542b95e0e15b8bb1443cea8159ac0274 --count) successfully finished
+2024-04-28 07:01:54,778 [git_deploy.py:log_repo_info()] - Git Repo timelapse Detected:
+Owner: mainsail-crew
+Repository Name: moonraker-timelapse
+Path: /home/pi/moonraker-timelapse
+Remote: origin
+Branch: main
+Remote URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Recovery URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Current Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Upstream Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Current Version: v0.0.1-143-gc7fff11e
+Upstream Version: v0.0.1-143-gc7fff11e
+Rollback Commit: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Rollback Branch: main
+Rollback Version: v0.0.1-132-gf9198e00
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 07:01:54,778 [base_deploy.py:log_info()] - Git Repo timelapse: Channel: dev
+2024-04-28 07:01:54,778 [base_deploy.py:log_info()] - Git Repo timelapse: Validity check for git repo passed
+2024-04-28 07:01:55,340 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper fetch origin --prune --progress) successfully finished
+2024-04-28 07:01:55,359 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 07:01:56,037 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper pull --progress) successfully finished
+2024-04-28 07:01:56,101 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper status --porcelain -b) successfully finished
+2024-04-28 07:01:56,120 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper branch --list --no-color) successfully finished
+2024-04-28 07:01:56,154 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper remote get-url origin) successfully finished
+2024-04-28 07:01:56,173 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 07:01:56,189 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse HEAD) successfully finished
+2024-04-28 07:01:56,295 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 07:01:56,313 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse origin/master) successfully finished
+2024-04-28 07:01:56,411 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 07:01:56,430 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-list HEAD..7b490f3ec1d3f0477b90c74d96f51ba1fb457a46 --count) successfully finished
+2024-04-28 07:01:56,431 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Recovery URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 7b490f3ec1d3f0477b90c74d96f51ba1fb457a46
+Upstream Commit SHA: 7b490f3ec1d3f0477b90c74d96f51ba1fb457a46
+Current Version: v0.12.0-175-g7b490f3e
+Upstream Version: v0.12.0-175-g7b490f3e
+Rollback Commit: 2f6e94c94cae036b70b02df996dc12e2e61e5dcb
+Rollback Branch: master
+Rollback Version: v0.12.0-171-g2f6e94c9
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+2024-04-28 07:01:56,431 [base_deploy.py:log_info()] - Git Repo klipper: Channel: dev
+2024-04-28 07:01:56,432 [base_deploy.py:log_info()] - Git Repo klipper: Validity check for git repo passed
+2024-04-28 07:01:56,484 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:01:57,242 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:01:58,371 [server.py:add_log_rollover_item()] - Klipper Version: v0.12.0-175-g7b490f3e-dirty
+2024-04-28 07:01:58,429 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:01:58,431 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:01:58,433 [klippy_connection.py:_check_ready()] - 
+home_xy_position cannot be used with [homing_override]
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 07:01:58,902 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker fetch origin --prune --progress) successfully finished
+2024-04-28 07:01:58,924 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 07:01:59,513 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker pull --progress) successfully finished
+2024-04-28 07:01:59,549 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker status --porcelain -b) successfully finished
+2024-04-28 07:01:59,567 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker branch --list --no-color) successfully finished
+2024-04-28 07:01:59,601 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker remote get-url origin) successfully finished
+2024-04-28 07:01:59,621 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker merge-base --is-ancestor HEAD origin/master) successfully finished
+2024-04-28 07:01:59,638 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse HEAD) successfully finished
+2024-04-28 07:01:59,680 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe --always --tags --long --dirty --abbrev=8) successfully finished
+2024-04-28 07:01:59,697 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse origin/master) successfully finished
+2024-04-28 07:01:59,729 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe origin/master --always --tags --long --abbrev=8) successfully finished
+2024-04-28 07:01:59,748 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-list HEAD..546a17f5d3e90dacb5018dee51dafbdb47858f02 --count) successfully finished
+2024-04-28 07:01:59,750 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Recovery URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: 546a17f5d3e90dacb5018dee51dafbdb47858f02
+Upstream Commit SHA: 546a17f5d3e90dacb5018dee51dafbdb47858f02
+Current Version: v0.8.0-337-g546a17f5
+Upstream Version: v0.8.0-337-g546a17f5
+Rollback Commit: 5a60d64f040205670ffe27f427960d1e672a664d
+Rollback Branch: master
+Rollback Version: v0.8.0-328-g5a60d64f
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+2024-04-28 07:01:59,750 [base_deploy.py:log_info()] - Git Repo moonraker: Channel: dev
+2024-04-28 07:01:59,751 [base_deploy.py:log_info()] - Git Repo moonraker: Validity check for git repo passed
+2024-04-28 07:01:59,784 [server.py:_handle_term_signal()] - Exiting with signal SIGTERM
+2024-04-28 07:01:59,893 [websockets.py:on_close()] - Websocket Closed: ID: 547612217056 Close Code: 1000, Close Reason: None, Pong Time Elapsed: 1.48
+2024-04-28 07:01:59,895 [websockets.py:on_close()] - Websocket Closed: ID: 547611656352 Close Code: 1001, Close Reason: Server Shutdown, Pong Time Elapsed: 4.46
+2024-04-28 07:01:59,897 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:01:59,906 [database.py:close()] - Database statistics:
+
+announcements:
+psize: 4096
+depth: 0
+branch_pages: 0
+leaf_pages: 0
+overflow_pages: 0
+entries: 0
+authorized_users:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+fluidd:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 1
+entries: 6
+gcode_metadata:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 32
+overflow_pages: 0
+entries: 88
+history:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 127
+overflow_pages: 0
+entries: 261
+mainsail:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 1
+entries: 11
+mobileraker:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 3
+entries: 2
+moonraker:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 8
+update_manager:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 3
+overflow_pages: 0
+entries: 8
+webcams:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+2024-04-28 07:01:59,918 [server.py:main()] - Server Shutdown
+-------------------- Log Start | Sun Apr 28 06:02:00 2024 --------------------
+platform: Linux-6.1.21-v8+-aarch64-with-glibc2.31
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: True
+instance_uuid: 77a8fdfa437a42d28af3c3961e6d54c0
+unix_socket_path: /home/pi/printer_data/comms/moonraker.sock
+software_version: v0.8.0-337-g546a17f
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker.git
+modified_files: []
+unofficial_components: []
+log_file: /home/pi/printer_data/logs/moonraker.log
+python_version: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+launch_args: /home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/__main__.py -d /home/pi/printer_data
+msgspec_enabled: False
+uvloop_enabled: False
+2024-04-28 07:02:00,674 [confighelper.py:read_file()] - Configuration File '/home/pi/printer_data/config/moonraker.conf' parsed, total size: 2376 B
+2024-04-28 07:02:00,674 [server.py:add_log_rollover_item()] - 
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+max_upload_size = 1024
+klippy_uds_address = ~/printer_data/comms/klippy.sock
+
+[file_manager]
+enable_object_processing = True
+
+[authorization]
+cors_domains = 
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	http://*.local
+	http://*.lan
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+
+[octoprint_compat]
+
+[history]
+
+[announcements]
+subscriptions = 
+	mainsail
+
+[update_manager]
+refresh_interval = 168
+enable_auto_refresh = True
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager timelapse]
+type = git_repo
+primary_branch = main
+path = ~/moonraker-timelapse
+origin = https://github.com/mainsail-crew/moonraker-timelapse.git
+managed_services = klipper moonraker
+
+[timelapse]
+output_path = ~/timelapse/
+ffmpeg_binary_path = /usr/bin/ffmpeg
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+managed_services = crowsnest
+install_script = tools/pkglist.sh
+
+[update_manager beacon]
+type = git_repo
+channel = dev
+path = ~/beacon_klipper
+origin = https://github.com/beacon3d/beacon_testers.git
+env = ~/klippy-env/bin/python
+requirements = requirements.txt
+install_script = install.sh
+is_system_service = False
+managed_services = klipper
+info_tags = 
+	desc=Beacon Surface Scanner
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+2024-04-28 07:02:00,762 [server.py:load_component()] - Component (secrets) loaded
+2024-04-28 07:02:00,767 [server.py:load_component()] - Component (template) loaded
+2024-04-28 07:02:00,774 [server.py:load_component()] - Component (klippy_connection) loaded
+2024-04-28 07:02:01,054 [server.py:load_component()] - Component (application) loaded
+2024-04-28 07:02:01,074 [server.py:load_component()] - Component (websockets) loaded
+2024-04-28 07:02:01,110 [server.py:load_component()] - Component (dbus_manager) loaded
+2024-04-28 07:02:01,116 [server.py:add_log_rollover_item()] - 
+Database Versions: pylmdb = 1.4.1, lmdb = (0, 9, 29)
+Unsafe Shutdown Count: 195
+2024-04-28 07:02:01,124 [server.py:load_component()] - Component (database) loaded
+2024-04-28 07:02:01,146 [file_manager.py:__init__()] - Using File System Observer: inotify
+2024-04-28 07:02:01,167 [server.py:load_component()] - Component (file_manager) loaded
+2024-04-28 07:02:01,193 [authorization.py:__init__()] - Authorization Configuration Loaded
+Trusted Clients:
+10.0.0.0/8
+127.0.0.0/8
+169.254.0.0/16
+172.16.0.0/12
+192.168.0.0/16
+fe80::/10
+::1/128
+CORS Domains:
+https://my\.mainsail\.xyz
+http://my\.mainsail\.xyz
+http://.*\.local
+http://.*\.lan
+2024-04-28 07:02:01,196 [server.py:load_component()] - Component (authorization) loaded
+2024-04-28 07:02:01,208 [server.py:load_component()] - Component (klippy_apis) loaded
+2024-04-28 07:02:01,390 [server.py:add_log_rollover_item()] - 
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 10000000f285e6c2
+  hardware_desc: BCM2835
+  model: Raspberry Pi 4 Model B Rev 1.5
+  total_memory: 3705532
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 03
+  manufacturer: Sandisk
+  oem_id: 5344
+  product_name: SD64G
+  product_revision: 8.5
+  serial_number: 89585864
+  manufacturer_date: 11/2021
+  capacity: 59.5 GiB
+  total_bytes: 63864569856
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {'name': 'MainsailOS', 'version_id': '1.2.1', 'codename': 'bullseye', 'id': 'mainsailos'}
+  kernel_version: 6.1.21-v8+
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  ratos-configurator
+2024-04-28 07:02:01,394 [server.py:load_component()] - Component (shell_command) loaded
+2024-04-28 07:02:01,394 [machine.py:__init__()] - Using System Provider: systemd_dbus
+2024-04-28 07:02:01,458 [server.py:add_log_rollover_item()] - Found libcamera Python module, version: v0.0.5+83-bde9b04f
+2024-04-28 07:02:01,459 [server.py:load_component()] - Component (machine) loaded
+2024-04-28 07:02:01,461 [server.py:load_component()] - Component (data_store) loaded
+2024-04-28 07:02:01,464 [proc_stats.py:__init__()] - Detected 'vcgencmd', throttle checking enabled
+2024-04-28 07:02:01,465 [server.py:load_component()] - Component (proc_stats) loaded
+2024-04-28 07:02:01,466 [server.py:load_component()] - Component (job_state) loaded
+2024-04-28 07:02:01,470 [server.py:load_component()] - Component (job_queue) loaded
+2024-04-28 07:02:01,475 [server.py:load_component()] - Component (http_client) loaded
+2024-04-28 07:02:01,480 [server.py:load_component()] - Component (announcements) loaded
+2024-04-28 07:02:01,483 [server.py:load_component()] - Component (webcam) loaded
+2024-04-28 07:02:01,486 [server.py:load_component()] - Component (extensions) loaded
+2024-04-28 07:02:01,544 [base_deploy.py:log_info()] - Git Repo moonraker: Detected virtualenv: /home/pi/moonraker-env
+2024-04-28 07:02:01,548 [base_deploy.py:log_info()] - Git Repo klipper: Detected virtualenv: /home/pi/klippy-env
+2024-04-28 07:02:01,554 [base_deploy.py:log_info()] - Git Repo beacon: Option 'env' is deprecated, use 'virtualenv' instead.
+2024-04-28 07:02:01,555 [base_deploy.py:log_info()] - Git Repo beacon: Detected virtualenv: /home/pi/klippy-env
+2024-04-28 07:02:01,560 [server.py:load_component()] - Component (update_manager) loaded
+2024-04-28 07:02:01,565 [server.py:load_component()] - Component (octoprint_compat) loaded
+2024-04-28 07:02:01,584 [server.py:load_component()] - Component (timelapse) loaded
+2024-04-28 07:02:01,588 [server.py:load_component()] - Component (history) loaded
+2024-04-28 07:02:01,590 [server.py:_initialize_component()] - Performing Component Post Init: [dbus_manager]
+2024-04-28 07:02:01,601 [server.py:_initialize_component()] - Performing Component Post Init: [file_manager]
+2024-04-28 07:02:01,873 [server.py:_initialize_component()] - Performing Component Post Init: [authorization]
+2024-04-28 07:02:01,873 [server.py:_initialize_component()] - Performing Component Post Init: [machine]
+2024-04-28 07:02:01,874 [machine.py:validation_init()] - Installation version in database up to date
+2024-04-28 07:02:02,122 [machine.py:check_virt_status()] - No Virtualization Detected
+2024-04-28 07:02:02,137 [machine.py:_find_public_ip()] - Detected Local IP: 192.168.1.208
+2024-04-28 07:02:02,139 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.208
+2024-04-28 07:02:02,191 [server.py:add_log_rollover_item()] - 
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['system.slice', 'sysinit.target', 'network-online.target']
+**After=['basic.target', 'klipper.service', 'systemd-journald.socket', 'system.slice', 'network-online.target', 'sysinit.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+2024-04-28 07:02:02,192 [server.py:_initialize_component()] - Performing Component Post Init: [proc_stats]
+2024-04-28 07:02:02,192 [server.py:_initialize_component()] - Performing Component Post Init: [announcements]
+2024-04-28 07:02:02,193 [server.py:_initialize_component()] - Performing Component Post Init: [webcam]
+2024-04-28 07:02:02,193 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.208
+2024-04-28 07:02:02,195 [server.py:_initialize_component()] - Performing Component Post Init: [klippy_connection]
+2024-04-28 07:02:02,196 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['-.mount', 'system.slice', 'sysinit.target']
+**After=['-.mount', 'network-online.target', 'sysinit.target', 'basic.target', 'systemd-journald.socket', 'klipper-mcu.service', 'system.slice']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2024-04-28 07:02:02,196 [server.py:_initialize_component()] - Performing Component Post Init: [update_manager]
+2024-04-28 07:02:02,198 [server.py:_initialize_component()] - Performing Component Post Init: [timelapse]
+2024-04-28 07:02:02,199 [timelapse.py:parseWebcamConfig()] - snapshoturl: http://localhost/webcam/?action=snapshot, Flip V/H: True/True, rotation: 0
+2024-04-28 07:02:02,200 [server.py:_initialize_component()] - Performing Component Post Init: [history]
+2024-04-28 07:02:02,255 [base_deploy.py:log_info()] - PackageDeploy: PackageKit Provider Configured
+2024-04-28 07:02:02,256 [base_deploy.py:log_info()] - Git Repo moonraker: Stored pip version: 23.0
+2024-04-28 07:02:02,258 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Recovery URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: 546a17f5d3e90dacb5018dee51dafbdb47858f02
+Upstream Commit SHA: 546a17f5d3e90dacb5018dee51dafbdb47858f02
+Current Version: v0.8.0-337-g546a17f5
+Upstream Version: v0.8.0-337-g546a17f5
+Rollback Commit: 5a60d64f040205670ffe27f427960d1e672a664d
+Rollback Branch: master
+Rollback Version: v0.8.0-328-g5a60d64f
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+2024-04-28 07:02:02,260 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Recovery URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 7b490f3ec1d3f0477b90c74d96f51ba1fb457a46
+Upstream Commit SHA: 7b490f3ec1d3f0477b90c74d96f51ba1fb457a46
+Current Version: v0.12.0-175-g7b490f3e
+Upstream Version: v0.12.0-175-g7b490f3e
+Rollback Commit: 2f6e94c94cae036b70b02df996dc12e2e61e5dcb
+Rollback Branch: master
+Rollback Version: v0.12.0-171-g2f6e94c9
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+2024-04-28 07:02:02,267 [base_deploy.py:log_info()] - Web Client mainsail: Detected
+Repo: mainsail-crew/mainsail
+Channel: stable
+Path: /home/pi/mainsail
+Local Version: v2.10.0
+Remote Version: v2.10.0
+Valid: True
+Fallback Detected: False
+Pre-release: False
+Download Url: https://github.com/mainsail-crew/mainsail/releases/download/v2.10.0/mainsail.zip
+Download Size: 2081565
+Content Type: application/zip
+Rollback Version: v2.9.1
+Rollback Repo: mainsail-crew/mainsail
+2024-04-28 07:02:02,269 [git_deploy.py:log_repo_info()] - Git Repo mainsail-config Detected:
+Owner: mainsail-crew
+Repository Name: mainsail-config
+Path: /home/pi/mainsail-config
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/mainsail-config.git
+Recovery URL: https://github.com/mainsail-crew/mainsail-config.git
+Current Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Upstream Commit SHA: e57810d51b5c634aadaca4db923bfcba269ae4b3
+Current Version: v1.2.1-0-ge57810d5
+Upstream Version: v1.2.1-0-ge57810d5
+Rollback Commit: 76a9999986b03abb3aed272dc0a818f13a18ea7e
+Rollback Branch: master
+Rollback Version: v1.1.0-1-g76a99999
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 07:02:02,272 [git_deploy.py:log_repo_info()] - Git Repo timelapse Detected:
+Owner: mainsail-crew
+Repository Name: moonraker-timelapse
+Path: /home/pi/moonraker-timelapse
+Remote: origin
+Branch: main
+Remote URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Recovery URL: https://github.com/mainsail-crew/moonraker-timelapse.git
+Current Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Upstream Commit SHA: c7fff11e542b95e0e15b8bb1443cea8159ac0274
+Current Version: v0.0.1-143-gc7fff11e
+Upstream Version: v0.0.1-143-gc7fff11e
+Rollback Commit: f9198e00c859ecb72e4dcc11451fd33cc98b7297
+Rollback Branch: main
+Rollback Version: v0.0.1-132-gf9198e00
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 07:02:02,273 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Recovery URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Upstream Commit SHA: d75a3aeb018384e59d03518754f6148c98894ed9
+Current Version: v4.1.9-1-gd75a3aeb
+Upstream Version: v4.1.9-1-gd75a3aeb
+Rollback Commit: e209d19d3c26b614799f194c53380aa2b5dff641
+Rollback Branch: master
+Rollback Version: v4.1.2-1-ge209d19d
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+2024-04-28 07:02:02,273 [base_deploy.py:log_info()] - Git Repo beacon: Stored pip version: 23.3.2
+2024-04-28 07:02:02,273 [git_deploy.py:log_repo_info()] - Git Repo beacon Detected:
+Owner: ?
+Repository Name: beacon_testers
+Path: /home/pi/beacon_klipper
+Remote: origin
+Branch: master
+Remote URL: git@github.com:beacon3d/beacon_testers.git
+Recovery URL: git@github.com:beacon3d/beacon_testers.git
+Current Commit SHA: 14c12b6689884680995ad889c1d6feb9bb6ee9be
+Upstream Commit SHA: 14c12b6689884680995ad889c1d6feb9bb6ee9be
+Current Version: v0.0.0-54-g14c12b66-inferred
+Upstream Version: v0.0.0-54-inferred
+Rollback Commit: 1e7511cad7f289dff193f077b490e668791877ac
+Rollback Branch: master
+Rollback Version: v1.0.0-27-g1e7511ca
+Is Dirty: False
+Is Detached: False
+Is Shallow: False
+Commits Behind Count: 0
+Diverged: False
+Repo Warnings:
+  Unofficial remote url: git@github.com:beacon3d/beacon_testers.git
+2024-04-28 07:02:02,281 [base_deploy.py:log_info()] - PackageKit: Next refresh in: 6 Days, 23 Hours, 56 Minutes, 4 Seconds
+2024-04-28 07:02:02,281 [base_deploy.py:log_info()] - Git Repo moonraker: Next refresh in: 6 Days, 23 Hours, 59 Minutes, 57 Seconds
+2024-04-28 07:02:02,281 [base_deploy.py:log_info()] - Git Repo klipper: Next refresh in: 6 Days, 23 Hours, 59 Minutes, 54 Seconds
+2024-04-28 07:02:02,282 [base_deploy.py:log_info()] - Web Client mainsail: Next refresh in: 6 Days, 23 Hours, 56 Minutes, 8 Seconds
+2024-04-28 07:02:02,282 [base_deploy.py:log_info()] - Git Repo mainsail-config: Next refresh in: 6 Days, 23 Hours, 56 Minutes, 9 Seconds
+2024-04-28 07:02:02,282 [base_deploy.py:log_info()] - Git Repo timelapse: Next refresh in: 6 Days, 23 Hours, 59 Minutes, 52 Seconds
+2024-04-28 07:02:02,282 [base_deploy.py:log_info()] - Git Repo crowsnest: Next refresh in: 6 Days, 23 Hours, 56 Minutes, 10 Seconds
+2024-04-28 07:02:02,282 [base_deploy.py:log_info()] - Git Repo beacon: Next refresh in: 6 Days, 23 Hours, 56 Minutes, 12 Seconds
+2024-04-28 07:02:02,286 [extensions.py:start_unix_server()] - Creating Unix Domain Socket at '/home/pi/printer_data/comms/moonraker.sock'
+2024-04-28 07:02:02,290 [server.py:start_server()] - Starting Moonraker on (0.0.0.0, 7125), Hostname: trident
+2024-04-28 07:02:02,292 [application.py:listen()] - SSL Certificate/Key not configured, aborting HTTPS Server startup
+2024-04-28 07:02:02,545 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:02:02,848 [server.py:add_log_rollover_item()] - Klipper Version: v0.12.0-175-g7b490f3e-dirty
+2024-04-28 07:02:02,861 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:02:02,863 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:02:02,865 [klippy_connection.py:_check_ready()] - 
+home_xy_position cannot be used with [homing_override]
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 07:02:08,992 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.70
+2024-04-28 07:02:08,995 [application.py:log_request()] - 101 GET /websocket (192.168.1.70) [_TRUSTED_USER_] 3.48ms
+2024-04-28 07:02:08,995 [websockets.py:open()] - Websocket Opened: ID: 547563971968, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0, Host Name: trident.local
+2024-04-28 07:02:09,000 [websockets.py:_handle_identify()] - Websocket 547563971968 Client Identified - Name: mainsail, Version: 2.10.0, Type: web
+2024-04-28 07:02:10,366 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2024-04-28 07:02:10,405 [application.py:log_request()] - 101 GET /websocket?token=QOA57B4NBR5R3QHJYZFEFSDJ5SUAOYGG (127.0.0.1) [_TRUSTED_USER_] 5.12ms
+2024-04-28 07:02:10,406 [websockets.py:open()] - Websocket Opened: ID: 547563971248, Proxied: False, User Agent: , Host Name: 127.0.0.1
+2024-04-28 07:02:10,903 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:02:13,295 [websockets.py:on_close()] - Websocket Closed: ID: 547563971968 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 4.30
+2024-04-28 07:02:13,635 [application.py:log_request()] - 101 GET /websocket (192.168.1.70) [_TRUSTED_USER_] 2.19ms
+2024-04-28 07:02:13,636 [websockets.py:open()] - Websocket Opened: ID: 547590070336, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0, Host Name: trident.local
+2024-04-28 07:02:13,643 [websockets.py:_handle_identify()] - Websocket 547590070336 Client Identified - Name: mainsail, Version: 2.10.0, Type: web
+2024-04-28 07:03:50,027 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJTzAP5dGBjZ4WGOW
+2024-04-28 07:03:50,051 [application.py:post()] - Processing Uploaded File: sensorless_homing.cfg
+2024-04-28 07:03:50,063 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 39.08ms
+2024-04-28 07:03:50,402 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:03:51,663 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:03:52,365 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:03:52,367 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:03:52,369 [klippy_connection.py:_check_ready()] - 
+Choice 'contact|proximity' for option 'home_method' in section 'beacon' is not a valid choice
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 07:03:53,879 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:06:01,564 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary0gk9vB3mjL7IINHW
+2024-04-28 07:06:01,592 [application.py:post()] - Processing Uploaded File: beacon.cfg
+2024-04-28 07:06:01,610 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 48.51ms
+2024-04-28 07:06:01,958 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:06:03,220 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:06:05,713 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:06:08,172 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:06:08,175 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:06:08,679 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-04-28 07:06:08,940 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-04-28 07:06:09,431 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor Spider', 'temperature_sensor raspberry_pi', 'temperature_sensor sht36', 'temperature_sensor chamber', 'heater_bed', 'temperature_sensor beacon_coil', 'extruder']
+2024-04-28 07:07:27,009 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryAHPshfodLYjn52Sk
+2024-04-28 07:07:27,019 [application.py:post()] - Processing Uploaded File: sensorless_homing.cfg
+2024-04-28 07:07:27,025 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 16.48ms
+2024-04-28 07:07:28,125 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:07:29,385 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:07:30,172 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:07:30,173 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:07:30,176 [klippy_connection.py:_check_ready()] - 
+home_xy_position cannot be used with [homing_override]
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2024-04-28 07:07:31,688 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:07:37,130 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: server.files.move, Code: 400, Message: [Errno 20] Not a directory: '/home/pi/printer_data/config/ConfigFiles/Macros/printing_macros.cfg/printing_macros.cfg'
+2024-04-28 07:16:11,481 [application.py:prepare()] - Upload Request Received from 192.168.1.70
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycn1LoMBAnR1ueCsJ
+2024-04-28 07:16:11,492 [application.py:post()] - Processing Uploaded File: beacon.cfg
+2024-04-28 07:16:11,497 [application.py:log_request()] - 201 POST /server/files/upload (192.168.1.70) [_TRUSTED_USER_] 16.97ms
+2024-04-28 07:16:11,825 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2024-04-28 07:16:13,085 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2024-04-28 07:16:15,720 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2024-04-28 07:16:17,647 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2024-04-28 07:16:17,650 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2024-04-28 07:16:17,897 [job_state.py:_handle_started()] - Job state initialized: standby
+2024-04-28 07:16:18,199 [klippy_connection.py:_check_ready()] - Klippy ready
+2024-04-28 07:16:18,657 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor Spider', 'temperature_sensor raspberry_pi', 'temperature_sensor sht36', 'temperature_sensor chamber', 'heater_bed', 'temperature_sensor beacon_coil', 'extruder']
+2024-04-28 08:17:01,891 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.1.70
+2024-04-28 08:17:01,892 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
+2024-04-28 08:17:43,692 [websockets.py:write_to_socket()] - Websocket closed while writing: 547590070336
+2024-04-28 08:17:48,640 [websockets.py:on_close()] - Websocket Closed: ID: 547590070336 Close Code: None, Close Reason: None, Pong Time Elapsed: 45.00
